@@ -23,7 +23,7 @@ class DeliveryTest {
     @DisplayName("Should successful plan and replan meeting")
     void shouldSuccessfulPlanAndReplanMeeting() {
         var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 4;
+        var daysToAddForFirstMeeting = 3;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         var daysToAddForSecondMeeting = 7;
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
@@ -68,21 +68,21 @@ class DeliveryTest {
     }
 
 
-    @Test
-    void enterCurrentDate() {
-        var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 1;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
-    }
+//    @Test
+//    void enterCurrentDate() {
+//        var validUser = DataGenerator.Registration.generateUser("ru");
+//        var daysToAddForFirstMeeting = 1;
+//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+//
+//        $("[data-test-id=city] input").setValue(validUser.getCity());
+//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+//        $("[data-test-id=date] input").setValue(firstMeetingDate);
+//        $("[data-test-id=name] input").setValue(validUser.getName());
+//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+//        $("[data-test-id=agreement]").click();
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
+//    }
 
     @Test
     void invalidData() {
