@@ -10,6 +10,8 @@ import ru.netology.delivery.data.DataGenerator;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
@@ -21,12 +23,12 @@ class DeliveryTest {
 
     @Test
     @DisplayName("Should successful plan and replan meeting")
-    void shouldSuccessfulPlanAndReplanMeeting() {
+    void shouldSuccessfulPlanMeeting() {
         var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 3;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+        var daysToAddForFirstMeeting = 4;
+        String firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         var daysToAddForSecondMeeting = 7;
-        var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
+        String secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
 
         $("[data-test-id=city] input").setValue(validUser.getCity());
         $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
@@ -68,21 +70,21 @@ class DeliveryTest {
     }
 
 
-//    @Test
-//    void enterCurrentDate() {
-//        var validUser = DataGenerator.Registration.generateUser("ru");
-//        var daysToAddForFirstMeeting = 1;
-//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-//
-//        $("[data-test-id=city] input").setValue(validUser.getCity());
-//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-//        $("[data-test-id=date] input").setValue(firstMeetingDate);
-//        $("[data-test-id=name] input").setValue(validUser.getName());
-//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-//        $("[data-test-id=agreement]").click();
-//        $$("button").find(exactText("Запланировать")).click();
-//        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
-//    }
+    @Test
+    void enterCurrentDate() {
+        var validUser = DataGenerator.Registration.generateUser("ru");
+        var daysToAddForFirstMeeting = 1;
+        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+
+        $("[data-test-id=city] input").setValue(validUser.getCity());
+        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] input").setValue(firstMeetingDate);
+        $("[data-test-id=name] input").setValue(validUser.getName());
+        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+        $("[data-test-id=agreement]").click();
+        $$("button").find(exactText("Запланировать")).click();
+        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
+    }
 
     @Test
     void invalidData() {

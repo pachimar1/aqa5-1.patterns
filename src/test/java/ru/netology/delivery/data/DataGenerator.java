@@ -23,8 +23,8 @@ public class DataGenerator {
     }
 
     public static String generateName(String locale) {
-        Faker faker = new Faker(new Locale(locale));
-        return faker.name().fullName();
+        var faker = new Faker(new Locale(locale));
+        return faker.name().lastName() + " " + faker.name().firstName();
     }
 
 
