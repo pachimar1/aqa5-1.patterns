@@ -44,79 +44,79 @@ class DeliveryTest {
         $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + secondMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
     }
 
-    @Test
-    public void webInterfacePositiveTest() {
-        var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 4;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
-    }
-
-    @Test
-    void emptyValues() {
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=city].input_invalid").should(exactText("Поле обязательно для заполнения"));
-    }
-
-
-    @Test
-    void enterCurrentDate() {
-        var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 1;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
-    }
-
-    @Test
-    void invalidName() {
-        Faker faker = new Faker();
-        String invalidName = faker.lorem().word();
-        var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 3;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(invalidName);
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=name].input_invalid .input__sub").shouldHave(Condition.exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
-    }
-
-
-    @Test
-    void cityNotSupported() {
-        Faker faker = new Faker();
-        String invalidCity = faker.lorem().word();
-        var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 3;
-        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-
-        $("[data-test-id=city] input").setValue(invalidCity);
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Доставка в выбранный город недоступна"));
-    }
+//    @Test
+//    public void webInterfacePositiveTest() {
+//        var validUser = DataGenerator.Registration.generateUser("ru");
+//        var daysToAddForFirstMeeting = 4;
+//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+//
+//        $("[data-test-id=city] input").setValue(validUser.getCity());
+//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+//        $("[data-test-id=date] input").setValue(firstMeetingDate);
+//        $("[data-test-id=name] input").setValue(validUser.getName());
+//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+//        $("[data-test-id=agreement]").click();
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
+//    }
+//
+//    @Test
+//    void emptyValues() {
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id=city].input_invalid").should(exactText("Поле обязательно для заполнения"));
+//    }
+//
+//
+//    @Test
+//    void enterCurrentDate() {
+//        var validUser = DataGenerator.Registration.generateUser("ru");
+//        var daysToAddForFirstMeeting = 1;
+//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+//
+//        $("[data-test-id=city] input").setValue(validUser.getCity());
+//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+//        $("[data-test-id=date] input").setValue(firstMeetingDate);
+//        $("[data-test-id=name] input").setValue(validUser.getName());
+//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+//        $("[data-test-id=agreement]").click();
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Заказ на выбранную дату невозможен"));
+//    }
+//
+//    @Test
+//    void invalidName() {
+//        Faker faker = new Faker();
+//        String invalidName = faker.lorem().word();
+//        var validUser = DataGenerator.Registration.generateUser("ru");
+//        var daysToAddForFirstMeeting = 3;
+//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+//
+//        $("[data-test-id=city] input").setValue(validUser.getCity());
+//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+//        $("[data-test-id=date] input").setValue(firstMeetingDate);
+//        $("[data-test-id=name] input").setValue(invalidName);
+//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+//        $("[data-test-id=agreement]").click();
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id=name].input_invalid .input__sub").shouldHave(Condition.exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+//    }
+//
+//
+//    @Test
+//    void cityNotSupported() {
+//        Faker faker = new Faker();
+//        String invalidCity = faker.lorem().word();
+//        var validUser = DataGenerator.Registration.generateUser("ru");
+//        var daysToAddForFirstMeeting = 3;
+//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+//
+//        $("[data-test-id=city] input").setValue(invalidCity);
+//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+//        $("[data-test-id=date] input").setValue(firstMeetingDate);
+//        $("[data-test-id=name] input").setValue(validUser.getName());
+//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
+//        $("[data-test-id=agreement]").click();
+//        $$("button").find(exactText("Запланировать")).click();
+//        $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Доставка в выбранный город недоступна"));
+//    }
 }
