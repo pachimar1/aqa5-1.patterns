@@ -1,10 +1,9 @@
 package ru.netology.delivery.test;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
 import ru.netology.delivery.data.DataGenerator;
 
@@ -14,7 +13,6 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
-
 
     @BeforeEach
     void setup() {
@@ -62,6 +60,7 @@ class DeliveryTest {
         $$("button").find(exactText("Запланировать")).click();
         $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
     }
+
     @Test
     void emptyValues() {
         $$("button").find(exactText("Запланировать")).click();
@@ -72,7 +71,7 @@ class DeliveryTest {
     @Test
     void enterCurrentDate() {
         var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 0;
+        var daysToAddForFirstMeeting = 1;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
 
         $("[data-test-id=city] input").setValue(validUser.getCity());
@@ -121,7 +120,6 @@ class DeliveryTest {
     }
 
 
-
     @Test
     void cityNotSupported() {
         open("http://localhost:9999");
@@ -139,5 +137,4 @@ class DeliveryTest {
         $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Доставка в выбранный город недоступна"));
     }
 
-    //проверка
 }
