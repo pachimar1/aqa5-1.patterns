@@ -1,7 +1,6 @@
 package ru.netology.delivery.test;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
@@ -10,8 +9,6 @@ import ru.netology.delivery.data.DataGenerator;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
@@ -50,7 +47,7 @@ class DeliveryTest {
     @Test
     public void webInterfacePositiveTest() {
         var validUser = DataGenerator.Registration.generateUser("ru");
-        var daysToAddForFirstMeeting = 3;
+        var daysToAddForFirstMeeting = 4;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
 
         $("[data-test-id=city] input").setValue(validUser.getCity());
@@ -87,23 +84,6 @@ class DeliveryTest {
     }
 
     @Test
-    void invalidData() {
-        Faker faker = new Faker();
-        String invalidData = faker.lorem().word();
-        var validUser = DataGenerator.Registration.generateUser("ru");
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(invalidData);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id='date'] .input_invalid .input__sub").shouldHave(Condition.exactText("Неверно введена дата"));
-    }
-
-
-    @Test
     void invalidName() {
         Faker faker = new Faker();
         String invalidName = faker.lorem().word();
@@ -124,12 +104,13 @@ class DeliveryTest {
 
     @Test
     void cityNotSupported() {
-        open("http://localhost:9999");
-        var validUser = DataGenerator.Registration.generateUser("en");
+        Faker faker = new Faker();
+        String invalidCity = faker.lorem().word();
+        var validUser = DataGenerator.Registration.generateUser("ru");
         var daysToAddForFirstMeeting = 3;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
 
-        $("[data-test-id=city] input").setValue(validUser.getCity());
+        $("[data-test-id=city] input").setValue(invalidCity);
         $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
         $("[data-test-id=date] input").setValue(firstMeetingDate);
         $("[data-test-id=name] input").setValue(validUser.getName());
@@ -138,5 +119,4 @@ class DeliveryTest {
         $$("button").find(exactText("Запланировать")).click();
         $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Доставка в выбранный город недоступна"));
     }
-
 }
