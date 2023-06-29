@@ -138,4 +138,6 @@ class DeliveryTest {
         $$("button").find(exactText("Запланировать")).click();
         $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Доставка в выбранный город недоступна"));
     }
+
+    //проверка
 }
