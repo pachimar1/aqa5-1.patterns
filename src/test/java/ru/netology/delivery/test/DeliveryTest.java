@@ -9,6 +9,8 @@ import ru.netology.delivery.data.DataGenerator;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 class DeliveryTest {
@@ -26,40 +28,29 @@ class DeliveryTest {
         String firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         var daysToAddForSecondMeeting = 7;
         String secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
-
-        $("[data-test-id=city] input").setValue(validUser.getCity());
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(firstMeetingDate);
-        $("[data-test-id=name] input").setValue(validUser.getName());
-        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-        $("[data-test-id=agreement]").click();
+        $("[data-test-id='city'] input").setValue(validUser.getCity());
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").setValue(firstMeetingDate);
+        $("[data-test-id='name'] input").setValue(validUser.getName());
+        $("[data-test-id='phone'] input").setValue(validUser.getPhone());
+        $("[data-test-id='agreement']").click();
+        $(byText("Запланировать")).click();
+        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
+        $("[data-test-id=success-notification] button").click();
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").setValue(secondMeetingDate);
         $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
-
-        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] input").setValue(secondMeetingDate);
-        $$("button").find(exactText("Запланировать")).click();
-        $("[data-test-id=replan-notification]").shouldHave(text("Необходимо подтверждение"), Duration.ofSeconds(15)).shouldBe(visible);
-        $$("button").find(exactText("Перепланировать")).click();
-        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + secondMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
+        $("[data-test-id ='replan-notification'] button").click();
+        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно запланирована на " + secondMeetingDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
-//    @Test
-//    public void webInterfacePositiveTest() {
-//        var validUser = DataGenerator.Registration.generateUser("ru");
-//        var daysToAddForFirstMeeting = 4;
-//        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
-//
-//        $("[data-test-id=city] input").setValue(validUser.getCity());
-//        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-//        $("[data-test-id=date] input").setValue(firstMeetingDate);
-//        $("[data-test-id=name] input").setValue(validUser.getName());
-//        $("[data-test-id=phone] input").setValue(validUser.getPhone());
-//        $("[data-test-id=agreement]").click();
-//        $$("button").find(exactText("Запланировать")).click();
-//        $("[data-test-id=success-notification]").shouldHave(text("Встреча успешно запланирована на " + firstMeetingDate), Duration.ofSeconds(15)).shouldBe(visible);
-//    }
-//
+
 //    @Test
 //    void emptyValues() {
 //        $$("button").find(exactText("Запланировать")).click();
